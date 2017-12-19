@@ -1,0 +1,27 @@
+galaxy_info:
+  author: Balz Aschwanden
+  description: Nest macos groups using dscl.
+  company: IT Services University of Basel
+  license: GPLv3
+  min_ansible_version: 2.3.2.0
+
+  platforms:
+  - name: macos
+    versions:
+    - all
+
+  galaxy_tags:
+    - client
+    - antsFramework
+    - ansiblePull
+    - unibas
+    - macOS
+    - macsible
+
+    #
+    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
+    #       Maximum 20 tags per role.
+
+dependencies: []
+  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
+  # if you add dependencies to this list.

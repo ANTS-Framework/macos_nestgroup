@@ -1,0 +1,5 @@
+---
+
+macos_nestgroup__managed_group: lpadmin
+macos_nestgroup__nested_group: everyone
+macos_nestgroup__present: present

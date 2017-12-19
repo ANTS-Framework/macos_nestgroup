@@ -1,0 +1,26 @@
+---
+
+- name: "Get GeneratedUID for group {{ macos_nestgroup__nested_group }}"
+  shell: "/usr/bin/dscl /Local/Default -read /Groups/{{ macos_nestgroup__nested_group }} GeneratedUID | cut -d ' ' -f 2"
+  register: nested_group_uid
+  changed_when: False
+
+# Get nested Groups by GID:
+- name: "Get groups nested in {{ macos_nestgroup__managed_group }}"
+  command: "/usr/bin/dscl /Local/Default -read /Groups/{{ macos_nestgroup__managed_group }} NestedGroups"
+  register: nested_groups
+  changed_when: False
+
+# dseditgroup -o edit will return 0 no matter if group is nested allready or not
+- name: "Nest {{ macos_nestgroup__nested_group }} group in {{ macos_nestgroup__managed_group }}"
+  command: "/usr/sbin/dseditgroup -o edit -n /Local/Default -a {{ macos_nestgroup__nested_group }} -t group {{ macos_nestgroup__managed_group }}"
+  when:
+        - macos_nestgroup__present
+        - not nested_group_uid.stdout in nested_groups.stdout
+
+# dseditgroup -o edit will return 0 no matter if group is nested allready or not
+- name: "Remove nested group {{ macos_nestgroup__nested_group }} from {{ macos_nestgroup__managed_group }}"
+  command: "/usr/sbin/dseditgroup -o edit -n /Local/Default -d {{ macos_nestgroup__nested_group }} -t group {{ macos_nestgroup__managed_group }}"
+  when:
+        - not macos_nestgroup__present
+        - nested_group_uid.stdout in nested_groups.stdout
