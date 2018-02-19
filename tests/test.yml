@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    - macos_nestgroup__present: false
+  roles:
+     - macos_nestgroup
